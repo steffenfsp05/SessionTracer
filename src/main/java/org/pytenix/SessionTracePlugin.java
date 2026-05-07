@@ -10,7 +10,9 @@ import org.pytenix.command.SessionTraceCommand;
 import org.pytenix.config.ConfigService;
 import org.pytenix.database.DatabaseProvider;
 import org.pytenix.database.SQLiteProvider;
+import org.pytenix.listeners.DuplicateSessionListener;
 import org.pytenix.listeners.PlayerConnectionListener;
+import org.pytenix.services.NotificationService;
 import org.pytenix.services.SessionTraceService;
 import org.pytenix.services.WhitelistService;
 
@@ -30,6 +32,7 @@ public class SessionTracePlugin extends JavaPlugin {
 
     private SessionTraceService sessionTraceService;
     private WhitelistService whitelistService;
+    private NotificationService notificationService;
 
 
     //THIS SETUP DOESNT WORK IF PROXIES ARE ENABLED (e.g. TCPShield)
@@ -50,6 +53,7 @@ public class SessionTracePlugin extends JavaPlugin {
 
             this.sessionTraceService = new SessionTraceService(this);
             this.whitelistService = new WhitelistService(this);
+            this.notificationService = new NotificationService(this);
 
             getLogger().info("SessionTracer erfolgreich gestartet!");
 
@@ -75,6 +79,7 @@ public class SessionTracePlugin extends JavaPlugin {
     {
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(new PlayerConnectionListener(this), this);
+        pluginManager.registerEvents(new DuplicateSessionListener(this), this);
     }
 
 
