@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.pytenix.SessionTracePlugin;
@@ -34,7 +35,7 @@ public class NotificationService {
 
         String formattedMessage = formatMessage(rawMessage, event);
 
-        Component alertMessage = Component.text(formattedMessage).color(NamedTextColor.RED);
+        Component alertMessage = LegacyComponentSerializer.legacySection().deserialize(formattedMessage);
 
         Bukkit.getScheduler().runTask(plugin, () -> {
 
