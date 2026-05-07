@@ -8,7 +8,10 @@ import lombok.Setter;
 
 import java.io.Serializable;
 
-@Getter @Setter @AllArgsConstructor @NoArgsConstructor
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Configuration implements Serializable {
 
 
@@ -19,9 +22,7 @@ public class Configuration implements Serializable {
     String staffNotifyMessage;
 
 
-
-    public static Configuration defaultConfiguration()
-    {
+    public static Configuration defaultConfiguration() {
         return new Configuration(
                 "§7[§cSessionTracer§7]",
                 2,

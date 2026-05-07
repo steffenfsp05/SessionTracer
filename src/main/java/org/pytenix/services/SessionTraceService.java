@@ -7,9 +7,12 @@ import org.pytenix.SessionTracePlugin;
 import org.pytenix.config.ConfigService;
 
 import java.net.InetSocketAddress;
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class SessionTraceService {
 
@@ -17,15 +20,13 @@ public class SessionTraceService {
     private final SessionTracePlugin plugin;
     private final ConfigService configService;
 
-    public SessionTraceService(SessionTracePlugin plugin)
-    {
+    public SessionTraceService(SessionTracePlugin plugin) {
         this.plugin = plugin;
         this.configService = plugin.getConfigService();
     }
 
 
-    public CompletableFuture<Boolean> checkConnection(String ipAddress, UUID uuid, String userName)
-    {
+    public CompletableFuture<Boolean> checkConnection(String ipAddress, UUID uuid, String userName) {
         CompletableFuture<Set<UUID>> altsFuture = getAltAccounts(ipAddress);
         CompletableFuture<WhitelistService.Status> whitelistFuture = plugin.getWhitelistService().getWhitelistStatus(userName.toLowerCase());
 
@@ -34,26 +35,21 @@ public class SessionTraceService {
             if (whitelistStatus.equals(WhitelistService.Status.WHITELISTED))
                 return true;
 
-
             if (uuids == null || uuids.isEmpty() || uuids.contains(uuid))
                 return true;
-
 
             return uuids.size() < configService.getConfiguration().getMaxAccountsPerIp();
         });
     }
 
 
-    public void traceConnection(UUID uuid, String ip)
-    {
+    public void traceConnection(UUID uuid, String ip) {
         Set<UUID> uuids = plugin.getPlayerCache().get(ip, s -> ConcurrentHashMap.newKeySet());
-
         uuids.add(uuid);
 
-        plugin.getPlayerDatabase().saveConnection(uuid,ip);
-
-
+        plugin.getPlayerDatabase().saveConnection(uuid, ip);
     }
+
     public void resetAndReinitialize(Runnable callback) {
 
         plugin.getPlayerCache().clearCache();
@@ -93,14 +89,13 @@ public class SessionTraceService {
                     });
         });
     }
+
     public CompletableFuture<Set<UUID>> getAltAccounts(String ip) {
 
         Set<UUID> cachedUuids = plugin.getPlayerCache().get(ip);
-        
+
         if (cachedUuids != null && !cachedUuids.isEmpty())
             return CompletableFuture.completedFuture(cachedUuids);
-
-
 
         return plugin.getPlayerDatabase().getAltsByIP(ip)
                 .thenApply(list -> {
@@ -110,11 +105,9 @@ public class SessionTraceService {
                         concurrentSet.addAll(list);
                     }
 
-
                     return concurrentSet;
                 });
     }
-
 
 
 }

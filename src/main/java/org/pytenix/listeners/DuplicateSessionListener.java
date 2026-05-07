@@ -9,15 +9,13 @@ public class DuplicateSessionListener implements Listener {
 
     private final SessionTracePlugin plugin;
 
-    public DuplicateSessionListener(SessionTracePlugin plugin)
-    {
+    public DuplicateSessionListener(SessionTracePlugin plugin) {
         this.plugin = plugin;
     }
 
 
     @EventHandler
-    public void onDuplicateSession(DuplicateSessionEvent event)
-    {
+    public void onDuplicateSession(DuplicateSessionEvent event) {
         plugin.getNotificationService().notifyStaff(event);
     }
 

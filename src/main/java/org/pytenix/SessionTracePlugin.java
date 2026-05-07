@@ -70,37 +70,34 @@ public class SessionTracePlugin extends JavaPlugin {
     }
 
 
-    private void registerCommands()
-    {
+    private void registerCommands() {
         this.getCommand("trace").setExecutor(new SessionTraceCommand(this));
     }
 
-    private void registerListeners()
-    {
+    private void registerListeners() {
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(new PlayerConnectionListener(this), this);
         pluginManager.registerEvents(new DuplicateSessionListener(this), this);
     }
 
 
-    private void initOnlinePlayer()
-    {
+    private void initOnlinePlayer() {
         Bukkit.getOnlinePlayers().forEach(player ->
         {
             final InetSocketAddress address = player.getAddress();
 
-            if(address != null)
-                 sessionTraceService.traceConnection(player.getUniqueId(), address.getHostString());
+            if (address != null)
+                sessionTraceService.traceConnection(player.getUniqueId(), address.getHostString());
         });
     }
 
     @Override
     public void onDisable() {
 
-        if(this.playerCache != null)
+        if (this.playerCache != null)
             playerCache.clearCache();
 
-        if(this.whitelistCache != null)
+        if (this.whitelistCache != null)
             whitelistCache.clearCache();
 
         if (this.playerDatabase != null)

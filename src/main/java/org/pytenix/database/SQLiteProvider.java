@@ -2,7 +2,9 @@ package org.pytenix.database;
 
 import java.io.File;
 import java.sql.*;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -10,9 +12,8 @@ import java.util.concurrent.TimeUnit;
 
 public class SQLiteProvider implements DatabaseProvider {
     private final File dbFile;
-    private Connection connection;
-
     private final ExecutorService executor;
+    private Connection connection;
 
     public SQLiteProvider(File dbFile) {
         this.dbFile = dbFile;
@@ -70,7 +71,7 @@ public class SQLiteProvider implements DatabaseProvider {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        },executor);
+        }, executor);
     }
 
     @Override
@@ -88,8 +89,9 @@ public class SQLiteProvider implements DatabaseProvider {
                 e.printStackTrace();
             }
             return alts;
-        },executor);
+        }, executor);
     }
+
     @Override
     public CompletableFuture<Void> clearAll() {
         return CompletableFuture.runAsync(() -> {
@@ -99,7 +101,7 @@ public class SQLiteProvider implements DatabaseProvider {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        },executor);
+        }, executor);
     }
 
     @Override
@@ -116,7 +118,7 @@ public class SQLiteProvider implements DatabaseProvider {
                 e.printStackTrace();
             }
             return userNames;
-        },executor);
+        }, executor);
     }
 
     @Override
@@ -130,7 +132,7 @@ public class SQLiteProvider implements DatabaseProvider {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        },executor);
+        }, executor);
     }
 
     @Override
@@ -146,7 +148,7 @@ public class SQLiteProvider implements DatabaseProvider {
                 e.printStackTrace();
                 return false;
             }
-        },executor);
+        }, executor);
     }
 
     @Override
@@ -159,7 +161,7 @@ public class SQLiteProvider implements DatabaseProvider {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        },executor);
+        }, executor);
     }
 
 }

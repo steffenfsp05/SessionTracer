@@ -14,10 +14,8 @@ import java.io.*;
 public class ConfigService {
 
 
-
     private final Yaml yaml;
     private final String fileName;
-
 
 
     @Getter
@@ -40,13 +38,12 @@ public class ConfigService {
         this.yaml = new Yaml(new Constructor(Object.class, loaderOptions), representer, options);
 
 
-        if(!existsConfig())
+        if (!existsConfig())
             saveConfig(Configuration.defaultConfiguration());
 
         this.configuration = loadConfig();
 
-        if(this.configuration == null)
-        {
+        if (this.configuration == null) {
             System.err.println("Error loading configuration from file, loading default configuration!");
             this.configuration = Configuration.defaultConfiguration();
         }
@@ -61,30 +58,24 @@ public class ConfigService {
         }
     }
 
-    public boolean existsConfig()
-    {
+    public boolean existsConfig() {
         return new File(fileName).exists();
     }
 
-    public void saveConfig(Configuration configuration)
-    {
-        if(!saveFile(configuration, new File(fileName)))
+    public void saveConfig(Configuration configuration) {
+        if (!saveFile(configuration, new File(fileName)))
             System.err.println("Error saving configuration!");
     }
 
-    public @Nullable Configuration loadConfig()
-    {
+    public @Nullable Configuration loadConfig() {
         return loadFile(Configuration.class, new File(fileName));
     }
-
-
-
 
 
     public boolean saveFile(Object data, File file) {
         try (Writer writer = new FileWriter(file)) {
 
-            if(data instanceof Configuration)
+            if (data instanceof Configuration)
                 writeComments(writer);
 
             yaml.dump(data, writer);

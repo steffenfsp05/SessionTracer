@@ -6,14 +6,13 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
-public class CaffeineCacheProvider<A,T> implements CacheProvider<A,T> {
+public class CaffeineCacheProvider<A, T> implements CacheProvider<A, T> {
 
 
-    final Cache<A,T > cache;
+    final Cache<A, T> cache;
 
-    public CaffeineCacheProvider(int expireAfterWrite, TimeUnit timeUnit)
-    {
-        this.cache  = Caffeine.newBuilder().expireAfterWrite(expireAfterWrite, timeUnit).build();
+    public CaffeineCacheProvider(int expireAfterWrite, TimeUnit timeUnit) {
+        this.cache = Caffeine.newBuilder().expireAfterWrite(expireAfterWrite, timeUnit).build();
 
 
     }
@@ -25,7 +24,7 @@ public class CaffeineCacheProvider<A,T> implements CacheProvider<A,T> {
 
     @Override
     public void put(A key, T data) {
-        cache.put(key,data);
+        cache.put(key, data);
     }
 
     @Override

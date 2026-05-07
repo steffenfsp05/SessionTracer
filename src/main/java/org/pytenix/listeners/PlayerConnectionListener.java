@@ -10,7 +10,6 @@ import org.pytenix.SessionTracePlugin;
 import org.pytenix.config.ConfigService;
 import org.pytenix.events.DuplicateSessionEvent;
 
-import java.util.Arrays;
 import java.util.UUID;
 
 public class PlayerConnectionListener implements Listener {
@@ -18,15 +17,13 @@ public class PlayerConnectionListener implements Listener {
     final SessionTracePlugin plugin;
     final ConfigService configService;
 
-    public PlayerConnectionListener(SessionTracePlugin plugin)
-    {
+    public PlayerConnectionListener(SessionTracePlugin plugin) {
         this.plugin = plugin;
         this.configService = plugin.getConfigService();
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onConnect(AsyncPlayerPreLoginEvent event)
-    {
+    public void onConnect(AsyncPlayerPreLoginEvent event) {
 
         final UUID uuid = event.getUniqueId();
         final String userName = event.getName();
@@ -36,11 +33,11 @@ public class PlayerConnectionListener implements Listener {
 
         final boolean isAllowed = plugin.getSessionTraceService().checkConnection(ipAddress, uuid, userName).join();
 
-            if(!isAllowed)
-                event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER,
-                        Component.text(configService.getConfiguration().getKickAltMessage()));
-            else
-                plugin.getSessionTraceService().traceConnection(uuid,ipAddress);
+        if (!isAllowed)
+            event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER,
+                    Component.text(configService.getConfiguration().getKickAltMessage()));
+        else
+            plugin.getSessionTraceService().traceConnection(uuid, ipAddress);
 
         plugin.getSessionTraceService().getAltAccounts(ipAddress).thenAccept(uuids -> {
 

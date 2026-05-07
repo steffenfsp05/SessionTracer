@@ -3,16 +3,13 @@ package org.pytenix.services;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.pytenix.SessionTracePlugin;
 import org.pytenix.config.ConfigService;
 import org.pytenix.events.DuplicateSessionEvent;
-import org.pytenix.listeners.DuplicateSessionListener;
 
-import javax.lang.model.element.ElementVisitor;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -22,8 +19,7 @@ public class NotificationService {
     private final SessionTracePlugin plugin;
     private final ConfigService configService;
 
-    public NotificationService(SessionTracePlugin plugin)
-    {
+    public NotificationService(SessionTracePlugin plugin) {
         this.plugin = plugin;
         this.configService = plugin.getConfigService();
     }
@@ -49,18 +45,17 @@ public class NotificationService {
         });
     }
 
-    public String formatMessage(String rawMessage, DuplicateSessionEvent event)
-    {
+    public String formatMessage(String rawMessage, DuplicateSessionEvent event) {
         for (Placeholder value : Placeholder.values()) {
-            rawMessage = rawMessage.replace("%"+value.placeholderId+"%", value.getFunc().apply(event));
+            rawMessage = rawMessage.replace("%" + value.placeholderId + "%", value.getFunc().apply(event));
         }
-        return configService.getConfiguration().getPrefix() +" "+ rawMessage;
+        return configService.getConfiguration().getPrefix() + " " + rawMessage;
     }
 
 
-    @AllArgsConstructor @Getter
-    enum Placeholder
-    {
+    @AllArgsConstructor
+    @Getter
+    enum Placeholder {
         originalName("name", DuplicateSessionEvent::getPlayerName),
         ipaddress("ipaddress", DuplicateSessionEvent::getIpAddress),
         duplicateNames("duplicatenames", event ->
@@ -70,8 +65,8 @@ public class NotificationService {
         knownAccounts("knownaccounts", event -> String.valueOf(event.getKnownAccountsOnIp())),
         playerUuid("playeruuid", event -> event.getPlayerUUID().toString());
 
-        String placeholderId;
-        Function<DuplicateSessionEvent,String> func;
+        final String placeholderId;
+        final Function<DuplicateSessionEvent, String> func;
 
 
     }

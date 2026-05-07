@@ -8,13 +8,11 @@ public class WhitelistService {
 
     private final SessionTracePlugin plugin;
 
-    public WhitelistService(SessionTracePlugin plugin)
-    {
+    public WhitelistService(SessionTracePlugin plugin) {
         this.plugin = plugin;
     }
 
-    public CompletableFuture<Status> getWhitelistStatus(String userName)
-    {
+    public CompletableFuture<Status> getWhitelistStatus(String userName) {
         CompletableFuture<Boolean> future;
         Status cachedValue = plugin.getWhitelistCache().get(userName);
 
@@ -67,8 +65,9 @@ public class WhitelistService {
             return Result.ERROR;
         });
     }
+
     public enum Status {
-        WHITELISTED,NOT_WHITELISTED
+        WHITELISTED, NOT_WHITELISTED
     }
 
     public enum Result {

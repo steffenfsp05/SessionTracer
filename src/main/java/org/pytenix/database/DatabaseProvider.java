@@ -19,7 +19,9 @@ public interface DatabaseProvider {
     CompletableFuture<Set<String>> getWhitelist();
 
     CompletableFuture<Void> addWhitelist(String name);
+
     CompletableFuture<Boolean> isWhitelist(String name);
+
     CompletableFuture<Void> removeWhitelist(String name);
 
 }
