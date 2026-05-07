@@ -55,7 +55,7 @@ public class SessionTracePlugin extends JavaPlugin {
             this.whitelistService = new WhitelistService(this);
             this.notificationService = new NotificationService(this);
 
-            getLogger().info("SessionTracer erfolgreich gestartet!");
+            getLogger().info("SessionTracer successfully started!");
 
             registerListeners();
             registerCommands();
@@ -63,7 +63,7 @@ public class SessionTracePlugin extends JavaPlugin {
             initOnlinePlayer();
 
         } catch (Exception e) {
-            getLogger().severe("Kritischer Fehler beim Starten des Plugins: " + e.getMessage());
+            getLogger().severe("Critical error while starting the plugin: " + e.getMessage());
             e.printStackTrace();
             getServer().getPluginManager().disablePlugin(this);
         }
@@ -103,9 +103,9 @@ public class SessionTracePlugin extends JavaPlugin {
         if (this.playerDatabase != null)
             try {
                 this.playerDatabase.close();
-                getLogger().info("Datenbankverbindung sicher getrennt.");
+                getLogger().info("Database Connection successfully closed!");
             } catch (Exception e) {
-                getLogger().severe("Fehler beim Schließen der Datenbank: " + e.getMessage());
+                getLogger().severe("An error occured while closing the database connection: " + e.getMessage());
             }
 
     }

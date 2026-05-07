@@ -54,7 +54,7 @@ public class ConfigService {
         if (reloaded != null) {
             this.configuration = reloaded;
         } else {
-            System.err.println("Fehler beim Neuladen der Config!");
+            System.err.println("Error while reloading the config");
         }
     }
 
@@ -81,7 +81,7 @@ public class ConfigService {
             yaml.dump(data, writer);
             return true;
         } catch (IOException e) {
-            System.err.println("[Config] Fehler beim Speichern: " + e.getMessage());
+            System.err.println("Error while saving the config: " + e.getMessage());
             return false;
         }
     }
@@ -113,7 +113,7 @@ public class ConfigService {
             Object loaded = new Yaml(new Constructor(clazz, loaderOptions)).load(inputStream);
             return clazz.cast(loaded);
         } catch (Exception e) {
-            System.err.println("[Config] Fehler beim Laden von " + file.getName() + ": " + e.getMessage());
+            System.err.println("[Config] Error while loading " + file.getName() + ": " + e.getMessage());
             return null;
         }
     }
