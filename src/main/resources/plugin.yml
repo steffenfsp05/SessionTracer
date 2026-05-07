@@ -1,0 +1,10 @@
+name: SessionTracer
+version: '1.0'
+main: org.pytenix.SessionTracePlugin
+api-version: '1.21'
+author: PytenixOG
+description: Traces Alt Accounts
+commands:
+  trace:
+    description: Lists command infos
+    usage: /trace
