@@ -97,10 +97,9 @@ public class SessionTraceService {
 
         Set<UUID> cachedUuids = plugin.getPlayerCache().get(ip);
         
-        if (cachedUuids != null && !cachedUuids.isEmpty()) {
-            System.out.println("cachedUuids: "+cachedUuids.stream().map(uuid -> uuid+":").collect(Collectors.joining()));
+        if (cachedUuids != null && !cachedUuids.isEmpty())
             return CompletableFuture.completedFuture(cachedUuids);
-        }
+
 
 
         return plugin.getPlayerDatabase().getAltsByIP(ip)
