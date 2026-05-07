@@ -49,6 +49,8 @@ public class PlayerConnectionListener implements Listener {
             if (uuids != null && uuids.contains(uuid))
                 knownAccounts--;
 
+            uuids.remove(uuid);
+
             if (knownAccounts > 0) {
                 DuplicateSessionEvent duplicateEvent = new DuplicateSessionEvent(
                         event.getName(),
