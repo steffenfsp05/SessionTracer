@@ -1,6 +1,5 @@
 package org.pytenix.services;
 
-import org.bukkit.Color;
 import org.pytenix.SessionTracePlugin;
 
 import java.util.concurrent.CompletableFuture;
@@ -69,10 +68,10 @@ public class WhitelistService {
         });
     }
     public enum Status {
-        WHITELISTED,NOT_WHITELISTED;
+        WHITELISTED,NOT_WHITELISTED
     }
 
     public enum Result {
-        DUPLICATE, NOT_EXISTS, SUCCESS, ERROR;
+        DUPLICATE, NOT_EXISTS, SUCCESS, ERROR
     }
 }

@@ -74,9 +74,7 @@ public class SessionTraceService {
                             .thenAccept(isAllowed -> {
 
                                 if (!isAllowed) {
-                                    Bukkit.getScheduler().runTask(plugin, () -> {
-                                        player.kick(Component.text(configService.getConfiguration().getKickAltMessage()));
-                                    });
+                                    Bukkit.getScheduler().runTask(plugin, () -> player.kick(Component.text(configService.getConfiguration().getKickAltMessage())));
                                 } else {
                                     traceConnection(player.getUniqueId(), address);
                                 }

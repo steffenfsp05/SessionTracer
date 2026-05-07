@@ -11,7 +11,6 @@ import org.jetbrains.annotations.NotNull;
 import org.pytenix.SessionTracePlugin;
 import org.pytenix.services.WhitelistService;
 
-import java.util.concurrent.CompletableFuture;
 
 public class SessionTraceCommand implements CommandExecutor {
 
@@ -51,15 +50,9 @@ public class SessionTraceCommand implements CommandExecutor {
                         String name = strings[2].toLowerCase();
 
                         switch (whitelistArgument) {
-                            case "add" -> {
-                                handleUpdateWhitelistCommand(commandSender, name, true);
-                            }
-                            case "remove" -> {
-                                handleUpdateWhitelistCommand(commandSender, name, false);
-                            }
-                            default -> {
-                                sendHelp(commandSender);
-                            }
+                            case "add" -> handleUpdateWhitelistCommand(commandSender, name, true);
+                            case "remove" -> handleUpdateWhitelistCommand(commandSender, name, false);
+                            default -> sendHelp(commandSender);
                         }
                         return true;
 
@@ -109,9 +102,7 @@ public class SessionTraceCommand implements CommandExecutor {
             if (newLimit < oldLimit) {
                 sendMessage(sender, "Limit verringert (" + oldLimit + " -> " + newLimit + "). Bereinige Datenbank & Cache...", Color.YELLOW);
 
-                plugin.getSessionTraceService().resetAndReinitialize(() -> {
-                    sendMessage(sender, "Reset abgeschlossen! Aktuelle Spieler neu geladen.", Color.GREEN);
-                });
+                plugin.getSessionTraceService().resetAndReinitialize(() -> sendMessage(sender, "Reset abgeschlossen! Aktuelle Spieler neu geladen.", Color.GREEN));
 
             } else {
                 sendMessage(sender, "Config erfolgreich neugeladen!", Color.GREEN);
