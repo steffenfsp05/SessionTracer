@@ -63,7 +63,7 @@ public class NotificationService {
         originalName("name", DuplicateSessionEvent::getPlayerName),
         ipaddress("ipaddress", DuplicateSessionEvent::getIpAddress),
         duplicateNames("duplicatenames", event ->
-                event.getAccountUUIDs().stream().map(uuid ->
+                event.getAccountUUIDs().stream().filter(uuid -> !uuid.equals(event.getPlayerUUID())).map(uuid ->
                         Bukkit.getPlayer(uuid) != null ? Bukkit.getPlayer(uuid).getName() : (Bukkit.getOfflinePlayer(uuid) != null ? Bukkit.getOfflinePlayer(uuid).getName() : "Not available")
                 ).collect(Collectors.joining(","))),
         knownAccounts("knownaccounts", event -> String.valueOf(event.getKnownAccountsOnIp())),
