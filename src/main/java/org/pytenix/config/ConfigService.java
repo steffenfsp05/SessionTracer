@@ -83,12 +83,32 @@ public class ConfigService {
 
     public boolean saveFile(Object data, File file) {
         try (Writer writer = new FileWriter(file)) {
+
+            if(data instanceof Configuration)
+                writeComments(writer);
+
             yaml.dump(data, writer);
             return true;
         } catch (IOException e) {
             System.err.println("[Config] Fehler beim Speichern: " + e.getMessage());
             return false;
         }
+    }
+
+
+    public void writeComments(Writer writer) throws IOException {
+        writer.write("# =======================================================\n");
+        writer.write("# SessionTracer Configuration\n");
+        writer.write("# =======================================================\n");
+        writer.write("# \n");
+        writer.write("# Available Placeholders for 'staffNotifyMessage':\n");
+        writer.write("# %name%           - The original name of the player\n");
+        writer.write("# %ipaddress%      - The IP address of the connection\n");
+        writer.write("# %duplicatenames% - Comma-separated list of known alt names\n");
+        writer.write("# %knownaccounts%  - Total amount of alt accounts on this IP\n");
+        writer.write("# %playeruuid%     - The UUID of the joining player\n");
+        writer.write("# \n");
+        writer.write("# =======================================================\n\n");
     }
 
     public <T> @Nullable T loadFile(Class<T> clazz, File file) {
