@@ -15,6 +15,8 @@ public class SQLiteProvider implements DatabaseProvider {
     private final ExecutorService executor;
     private Connection connection;
 
+    //UNSAFE; RECOMMENDATION: ORMLiteProvider
+
     public SQLiteProvider(File dbFile) {
         this.dbFile = dbFile;
         this.executor = Executors.newSingleThreadExecutor();

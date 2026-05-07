@@ -9,6 +9,7 @@ import org.pytenix.cache.CaffeineCacheProvider;
 import org.pytenix.command.SessionTraceCommand;
 import org.pytenix.config.ConfigService;
 import org.pytenix.database.DatabaseProvider;
+import org.pytenix.database.ORMLiteProvider;
 import org.pytenix.database.SQLiteProvider;
 import org.pytenix.listeners.DuplicateSessionListener;
 import org.pytenix.listeners.PlayerConnectionListener;
@@ -43,9 +44,9 @@ public class SessionTracePlugin extends JavaPlugin {
             if (!getDataFolder().exists())
                 getDataFolder().mkdirs();
 
-            this.configService = new ConfigService(getDataFolder());
+            this.configService = new ConfigService(this, getDataFolder());
 
-            this.playerDatabase = new SQLiteProvider(new File(getDataFolder(), "database.db"));
+            this.playerDatabase = new ORMLiteProvider(new File(getDataFolder(), "orm_database.db"));
             this.playerCache = new CaffeineCacheProvider<>(10, TimeUnit.SECONDS);
             this.whitelistCache = new CaffeineCacheProvider<>(10, TimeUnit.SECONDS);
 

@@ -2,6 +2,8 @@ package org.pytenix.config;
 
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
+import org.pytenix.SessionTracePlugin;
+import org.pytenix.services.SessionTraceService;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
@@ -21,7 +23,11 @@ public class ConfigService {
     @Getter
     Configuration configuration;
 
-    public ConfigService(File dataFolder) {
+    private final SessionTracePlugin plugin;
+
+    public ConfigService(SessionTracePlugin plugin, File dataFolder) {
+
+        this.plugin = plugin;
 
         this.fileName = new File(dataFolder, "config.yaml").getAbsolutePath();
 
@@ -44,7 +50,7 @@ public class ConfigService {
         this.configuration = loadConfig();
 
         if (this.configuration == null) {
-            System.err.println("Error loading configuration from file, loading default configuration!");
+            plugin.getLogger().severe("Error loading configuration from file, loading default configuration!");
             this.configuration = Configuration.defaultConfiguration();
         }
     }
@@ -54,7 +60,7 @@ public class ConfigService {
         if (reloaded != null) {
             this.configuration = reloaded;
         } else {
-            System.err.println("Error while reloading the config");
+            plugin.getLogger().severe("Error while reloading the config");
         }
     }
 
@@ -64,7 +70,7 @@ public class ConfigService {
 
     public void saveConfig(Configuration configuration) {
         if (!saveFile(configuration, new File(fileName)))
-            System.err.println("Error saving configuration!");
+            plugin.getLogger().severe("Error saving configuration!");
     }
 
     public @Nullable Configuration loadConfig() {
@@ -81,7 +87,7 @@ public class ConfigService {
             yaml.dump(data, writer);
             return true;
         } catch (IOException e) {
-            System.err.println("Error while saving the config: " + e.getMessage());
+            plugin.getLogger().severe("Error while saving the config: " + e.getMessage());
             return false;
         }
     }
@@ -113,7 +119,7 @@ public class ConfigService {
             Object loaded = new Yaml(new Constructor(clazz, loaderOptions)).load(inputStream);
             return clazz.cast(loaded);
         } catch (Exception e) {
-            System.err.println("[Config] Error while loading " + file.getName() + ": " + e.getMessage());
+            plugin.getLogger().severe("[Config] Error while loading " + file.getName() + ": " + e.getMessage());
             return null;
         }
     }
