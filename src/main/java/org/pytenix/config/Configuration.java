@@ -12,6 +12,7 @@ import java.io.Serializable;
 public class Configuration implements Serializable {
 
 
+    String prefix;
     int maxAccountsPerIp;
     String staffPermission;
     String bypassPermission;
@@ -22,11 +23,13 @@ public class Configuration implements Serializable {
 
     public static Configuration defaultConfiguration()
     {
-        return new Configuration(2,
+        return new Configuration(
+                "§7[§cSessionTracer§7]",
+                2,
                 "trace.alert",
                 "trace.bypass",
-                "Multiple Accounts detected",
-                "An User with an Alt Account detected! [Username: %s, IP-Address: %s]"
+                "§cMultiple Accounts detected",
+                "§cAlt Account detected! User: §4%name% §7| §cIP: §4%ipaddress% §7| §cTotal Accounts: §4%knownaccounts% §7| §cKnown Alts: §4%duplicatenames%"
         );
     }
 }

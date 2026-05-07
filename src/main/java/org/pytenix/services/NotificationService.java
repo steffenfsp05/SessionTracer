@@ -53,7 +53,7 @@ public class NotificationService {
         for (Placeholder value : Placeholder.values()) {
             rawMessage = rawMessage.replace("%"+value.placeholderId+"%", value.getFunc().apply(event));
         }
-        return rawMessage;
+        return configService.getConfiguration().getPrefix() +" "+ rawMessage;
     }
 
 
