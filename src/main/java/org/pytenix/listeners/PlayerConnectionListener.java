@@ -46,11 +46,8 @@ public class PlayerConnectionListener implements Listener {
 
             int knownAccounts = (uuids == null) ? 0 : uuids.size();
 
-            if (uuids != null && uuids.contains(uuid))
-                knownAccounts--;
 
-
-            if (knownAccounts > 0) {
+            if (knownAccounts > 1) {
                 DuplicateSessionEvent duplicateEvent = new DuplicateSessionEvent(
                         event.getName(),
                         uuid,
