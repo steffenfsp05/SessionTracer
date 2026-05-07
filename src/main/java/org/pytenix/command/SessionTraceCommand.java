@@ -28,6 +28,12 @@ public class SessionTraceCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String @NotNull [] strings) {
 
         if (command.getName().equalsIgnoreCase("trace")) {
+            if(!commandSender.hasPermission(plugin.getConfigService().getConfiguration().getCommandPermission()))
+            {
+                sendMessage(commandSender,"Insufficient permissions!", Color.RED);
+                return true;
+            }
+
             if (strings.length == 0) {
                 sendHelp(commandSender);
                 return true;
