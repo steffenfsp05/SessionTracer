@@ -1,8 +1,11 @@
 package org.pytenix.services;
 
+import io.papermc.paper.registry.data.dialog.body.ItemDialogBody;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFactory;
+import org.bukkit.inventory.ItemStack;
 import org.pytenix.SessionTracePlugin;
 import org.pytenix.config.ConfigService;
 
@@ -61,6 +64,7 @@ public class SessionTraceService {
             List<CompletableFuture<Void>> playerTasks = new ArrayList<>();
 
             for (Player player : onlinePlayers) {
+
                 final InetSocketAddress playerAddress = player.getAddress();
                 if (playerAddress != null) {
                     final String address = playerAddress.getAddress().getHostAddress();

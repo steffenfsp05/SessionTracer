@@ -12,6 +12,13 @@ target/
 *.iml
 *.ipr
 
+# IntelliJ-Ordner und Einstellungsdateien
+.idea/
+out/
+
+# Alle target-Ordner (egal ob im Root oder in den Modulen)
+**/target/
+
 ### Eclipse ###
 .apt_generated
 .classpath
@@ -36,3 +43,8 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+
+# Temporäre Maven-Shade Dateien
+dependency-reduced-pom.xml
+**/dependency-reduced-pom.xml
